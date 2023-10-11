@@ -3,6 +3,7 @@ package ru.hogwarts.school.service;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.repository.FacultyRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -54,8 +55,7 @@ class FacultyServiceTest {
     void testRemove() {
         var faculty = service.add(new Faculty(null, "test1", "white"));
         assertNotNull(service.get(faculty.getId()));
-        assertTrue(service.remove(faculty.getId()));
-        assertFalse(service.remove(99999999L));
+        assertEquals(null,faculty);
 
     }
 
