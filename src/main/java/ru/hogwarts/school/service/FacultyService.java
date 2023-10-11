@@ -28,7 +28,7 @@ public class FacultyService {
     }
 
     public void remove(long id) {
-        facultyRepository.getById(id);
+        facultyRepository.deleteById(id);
     }
 
     public Faculty update(Faculty faculty) {
