@@ -5,6 +5,7 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -15,11 +16,8 @@ public class FacultyService {
         this.facultyRepository = facultyRepository;
     }
 
-    public FacultyService() {
 
-    }
-
-    public Faculty add (Faculty faculty) {
+    public Faculty add(Faculty faculty) {
         return facultyRepository.save(faculty);
     }
 
@@ -35,9 +33,7 @@ public class FacultyService {
         return facultyRepository.save(faculty);
     }
 
-    public Collection<Faculty> filterByColor(String color) {
-        return facultyRepository.findAll().stream()
-                .filter(s -> s.getColor().equalsIgnoreCase(color))
-                .collect(Collectors.toList());
+    public List<Faculty> filterByColor(String color) {
+        return facultyRepository.findFacultyByColor(color);
     }
 }
