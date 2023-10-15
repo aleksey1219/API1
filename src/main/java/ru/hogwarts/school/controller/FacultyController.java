@@ -43,4 +43,10 @@ public class FacultyController {
     public List<Faculty> byColor(@RequestParam String color) {
         return service.filterByColor(color);
     }
+
+    @GetMapping("/byColorAndName")
+    public List<Faculty> byColorAndName(@RequestParam(required = false) String name,
+                                        @RequestParam(required = false) String color) {
+        return service.filterByNameOrCalor(name, color);
+    }
 }
