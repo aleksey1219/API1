@@ -33,8 +33,8 @@ public class StudentController {
     }
 
     @DeleteMapping("/{id}")
-    public void remove(@PathVariable long id) {
-       service.remove(id);
+    public Student remove(@PathVariable long id) {
+     return service.remove(id);
     }
     @GetMapping("/byAge")
     public List<Student> byAge(@RequestParam int age) {
