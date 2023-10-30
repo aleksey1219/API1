@@ -9,6 +9,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FacultyControllerTest {
@@ -29,8 +30,10 @@ public class FacultyControllerTest {
 
     @Test
     public void testGetFacultyById() throws Exception {
+        var f = faculty("Грифиндор", "Желтый");
+        var saved = restTemplate.postForObject("/faculty", f, Faculty.class);
         Assertions
-                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/faculty" + "/by-id", String.class))
+                .assertThat(this.restTemplate.getForObject("/faculty/" + saved.getId(), String.class))
                 .isNotNull();
     }
 
@@ -49,14 +52,14 @@ public class FacultyControllerTest {
     @Test
     public void testGetFacultyByColor() throws Exception {
         Assertions
-                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/faculty" + "/by-color", String.class))
+                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/faculty" + "/byColor", String.class))
                 .isNotNull();
     }
 
     @Test
     public void testGetFacultyByNameOrColor() throws Exception {
         Assertions
-                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/faculty" + "/by-name-or-color", String.class))
+                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/faculty" + "/byColorAndName", String.class))
                 .isNotNull();
     }
 
@@ -87,5 +90,11 @@ public class FacultyControllerTest {
         Assertions
                 .assertThat(this.restTemplate.postForObject("http://localhost:" + port + "/faculty", faculty, String.class))
                 .isNotNull();
+    }
+    private static Faculty faculty(String name, String color) {
+        var f = new Faculty();
+        f.setName(name);
+        f.setColor(color);
+        return f;
     }
 }

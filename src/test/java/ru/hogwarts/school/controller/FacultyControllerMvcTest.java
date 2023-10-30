@@ -112,13 +112,13 @@ class FacultyControllerMvcTest {
                 .andExpect(MockMvcResultMatchers.content().json(mapper.writeValueAsString(MOCK_FACULTIES)));
     }
 
-    /*  @Test
+      @Test
     public void getStudentsByFaculty() throws Exception {
         when(facultyRepository.findById(ArgumentMatchers.any(Long.class))).thenReturn(Optional.of(MOCK_FACULTY));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/faculty/students/" + MOCK_FACULTY_ID)
+                        .get("/faculty/" + 1+"/students/")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-    }*/
+    }
 }

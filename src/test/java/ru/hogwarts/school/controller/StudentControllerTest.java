@@ -96,7 +96,7 @@ class StudentControllerTest {
         Assertions.assertThat(deletedHarry).isNull();
     }
 
- /*   @Test
+   @Test
     void testGetFacultyByStudent() {
         var savedFaculty = restTemplate.postForObject("/faculty", faculty("gryff", "green"), Faculty.class);
         var s = student("Ron", 19);
@@ -109,7 +109,7 @@ class StudentControllerTest {
         Assertions.assertThat(result.getName()).isEqualTo("gryff");
         Assertions.assertThat(result.getColor()).isEqualTo("green");
     }
-*/
+
     @Test
     void testFilterByAge() {
         var s1 = restTemplate.postForObject("/student", student("test1", 16), Student.class);
