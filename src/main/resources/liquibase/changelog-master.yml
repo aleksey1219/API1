@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: liquibase/scripts/indexStudentName.sql
+       liquibase/scripts/indexFacultyNameOrCalor.sql
