@@ -19,6 +19,7 @@ public class StudentService {
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
+
     public Student add(Student Student) {
         logger.info("вызван метод add");
         return studentRepository.save(Student);
@@ -33,7 +34,7 @@ public class StudentService {
         var entity = studentRepository.findById(id).orElse(null);
         if (entity != null) {
             studentRepository.delete(entity);
-        }else logger.error("entity null");
+        } else logger.error("entity null");
         return entity;
     }
 
@@ -42,6 +43,7 @@ public class StudentService {
                 .map(entity -> studentRepository.save(Student))
                 .orElse(null);
     }
+
     public List<Student> findStudentByAge(int age) {
         return studentRepository.findStudentByAge(age);
     }
@@ -60,5 +62,19 @@ public class StudentService {
 
     public List<Student> findLastFiveStudents() {
         return studentRepository.findLastFiveStudents();
+    }
+
+    public List<String> sortedName() {
+        return studentRepository.findAll().stream()
+                .map(s -> s.getName().toUpperCase())
+                .filter(n -> n.startsWith("A"))
+                .sorted()
+                .collect(Collectors.toList());
+    }
+    public double AvgAge() {
+        return studentRepository.findAll().stream()
+                .mapToDouble(Student::getAge)
+                .average()
+                .orElseThrow();
     }
 }
