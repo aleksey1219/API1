@@ -51,7 +51,7 @@ public class FacultyService {
         return facultyRepository.findAllByNameOrColorIgnoreCase(name, color);
     }
     public String longName() {
-        return facultyRepository.findAll().stream()
+        return facultyRepository.findAll().parallelStream()
                 .map(Faculty::getName)
                 .max(Comparator.comparing(String::length))
                 .orElse(null);

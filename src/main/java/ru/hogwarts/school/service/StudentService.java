@@ -65,14 +65,14 @@ public class StudentService {
     }
 
     public List<String> sortedName() {
-        return studentRepository.findAll().stream()
+        return studentRepository.findAll().parallelStream()
                 .map(s -> s.getName().toUpperCase())
                 .filter(n -> n.startsWith("A"))
                 .sorted()
                 .collect(Collectors.toList());
     }
     public double AvgAge() {
-        return studentRepository.findAll().stream()
+        return studentRepository.findAll().parallelStream()
                 .mapToDouble(Student::getAge)
                 .average()
                 .orElseThrow();
