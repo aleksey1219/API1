@@ -77,4 +77,43 @@ public class StudentService {
                 .average()
                 .orElseThrow();
     }
+    public void printNonSync() {
+        var students = studentRepository.findAll();
+        System.out.println(students.get(0));
+        System.out.println(students.get(1));
+
+        Thread t1 = new Thread(() -> {
+            System.out.println(students.get(2));
+            System.out.println(students.get(3));
+        });
+        Thread t2 = new Thread(() -> {
+            System.out.println(students.get(4));
+            System.out.println(students.get(5));
+        });
+        t2.start();
+        t1.start();
+        System.out.println("-----------------");
+    }
+
+    public void printSync() {
+        var students = studentRepository.findAll();
+        printSynchronized(students.get(0));
+        printSynchronized(students.get(1));
+
+        Thread t1 = new Thread(() -> {
+            printSynchronized(students.get(2));
+            printSynchronized(students.get(3));
+        });
+        Thread t2 = new Thread(() -> {
+            printSynchronized(students.get(4));
+            printSynchronized(students.get(5));
+        });
+        t2.start();
+        t1.start();
+        System.out.println("-----------------");
+    }
+
+    private synchronized void printSynchronized(Object o) {
+        System.out.println(o.toString());
+    }
 }

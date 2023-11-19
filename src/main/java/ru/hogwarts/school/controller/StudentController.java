@@ -81,4 +81,13 @@ public class StudentController {
                 .reduce(0, (a, b) -> a + b);
         return sum;
     }
+    @GetMapping("/printNonSync")
+    public void printNonSync() {
+        service.printNonSync();
+    }
+
+    @GetMapping("/printSync")
+    public void printync() {
+        service.printNonSync();
+    }
     }
