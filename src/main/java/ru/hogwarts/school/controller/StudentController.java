@@ -88,6 +88,6 @@ public class StudentController {
 
     @GetMapping("/printSync")
     public void printync() {
-        service.printNonSync();
+        service.printSync();
     }
     }

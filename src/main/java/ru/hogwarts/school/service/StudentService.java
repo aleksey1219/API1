@@ -9,12 +9,15 @@ import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
     private final static Logger logger = LoggerFactory.getLogger(StudentService.class);
     private StudentRepository studentRepository;
+    private Queue<Object> printQueue = new ConcurrentLinkedQueue<>();
 
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
@@ -97,23 +100,33 @@ public class StudentService {
 
     public void printSync() {
         var students = studentRepository.findAll();
-        printSynchronized(students.get(0));
-        printSynchronized(students.get(1));
 
-        Thread t1 = new Thread(() -> {
-            printSynchronized(students.get(2));
-            printSynchronized(students.get(3));
-        });
-        Thread t2 = new Thread(() -> {
-            printSynchronized(students.get(4));
-            printSynchronized(students.get(5));
-        });
-        t2.start();
+        printQueue.offer(students.get(0));
+        printQueue.offer(students.get(1));
+        printQueue.offer(students.get(2));
+        printQueue.offer(students.get(3));
+        printQueue.offer(students.get(4));
+        printQueue.offer(students.get(5));
+
+        Thread t1 = new Thread(this::printFromQueue);
+        Thread t2 = new Thread(this::printFromQueue);
+
         t1.start();
-        System.out.println("-----------------");
+        t2.start();
     }
 
-    private synchronized void printSynchronized(Object o) {
+    private void printFromQueue() {
+        while (!printQueue.isEmpty()) {
+            synchronized (this) {
+                Object student = printQueue.poll();
+                if (student != null) {
+                    printSynchronized(student);
+                }
+            }
+        }
+    }
+
+    private void printSynchronized(Object o) {
         System.out.println(o.toString());
     }
 }
